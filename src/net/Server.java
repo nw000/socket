@@ -19,7 +19,7 @@ public class Server {
         try {
             //创建一个ServerSocket，这里可以指定连接请求的队列长度
             //new ServerSocket(port,3);意味着当队列中有3个连接请求是，如果Client再请求连接，就会被Server拒绝
-            ServerSocket serverSocket = new ServerSocket(port);
+            ServerSocket serverSocket = new ServerSocket(port,1);
             while (true) {
                 //从请求队列中取出一个连接
                 Socket client = serverSocket.accept();

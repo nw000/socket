@@ -43,8 +43,8 @@ public class Client {
                 if (socket != null) {
                     try {
                         socket.close();
-                    } catch (IOException e) {
                         socket = null;
+                    } catch (IOException e) {
                         System.out.println("客户端 finally 异常:" + e.getMessage());
                     }
                 }
