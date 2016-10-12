@@ -1,5 +1,7 @@
 package jsonnet;
 
+import org.json.JSONObject;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -33,9 +35,7 @@ public class Server {
         }
 
         public void run() {
-
             try {
-
                 handleSocket();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -47,32 +47,36 @@ public class Server {
          * @throws Exception
          */
         private void handleSocket() throws Exception {
-            Reader reader = new InputStreamReader(socket.getInputStream());
-            char chars[] = new char[64];
-            int len;
-            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String temp;
-            int index;
-            while ((len=reader.read(chars)) != -1) {
-                temp = new String(chars, 0, len);
-                if ((index = temp.indexOf("eof")) != -1) {//遇到eof时就结束接收
-                    sb.append(temp.substring(0, index));
-                    break;
-                }
-                sb.append(temp);
-            }
-            System.out.println("from client: " + sb);
-            //读完后写一句
+
             Writer writer = new OutputStreamWriter(socket.getOutputStream());
-            writer.write("Hello Client.");
-            writer.flush();
-            writer.close();
-            reader.close();
+            //dsdsdsdf\ndfdfsfs\nsfffdf
+            while ((temp = br.readLine()) != null) {
+                handleRequest(writer,temp);
+            }
+            br.close();
             socket.close();
         }
 
+        private void handleRequest(Writer writer, String temp) throws Exception {
+            System.out.println(temp);
+            JSONObject obj = new JSONObject(temp);
+            int cmd = obj.optInt("cmd");
+            if (cmd == 1) {
+                writer.write("{\"price\" : 4100}");
+                writer.write("\n");
+                writer.flush();
+            }
+            else {
+                //TODO
+                writer.write("{\"code\" : -1,\"msg\" : \"无法识别的cmd\"}");
+                writer.write("\n");
+                writer.flush();
+            }
+            //读完后写一句
+        }
     }
-
 }
 
 

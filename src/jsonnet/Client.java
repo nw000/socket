@@ -20,22 +20,27 @@ public class Client {
         Socket client = new Socket(host, port);
         //建立连接后就可以往服务端写数据了
         Writer writer = new OutputStreamWriter(client.getOutputStream());
-        writer.write("Hello Server.");
-        writer.write("eof\n");
+        writer.write("{\"cmd\" : 1}");
+        writer.write("\n");
         writer.flush();
+
+        writer.write("{\"cmd\" : 2}");
+        writer.write("\n");
+        writer.flush();
+
         //写完以后进行读操作
         BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        StringBuffer sb = new StringBuffer();
         String temp;
-        int index;
-        while ((temp=br.readLine()) != null) {
-            if ((index = temp.indexOf("eof")) != -1) {
-                sb.append(temp.substring(0, index));
-                break;
-            }
-            sb.append(temp);
+        int i = 0;
+        while ((temp = br.readLine()) != null) {
+           System.out.println("from temp: " + temp);
+            //writer.write("{\"cmd\" : 1}");
+            //writer.write("\n");
+            //writer.flush();
+            //i++;
         }
-        System.out.println("from server: " + sb);
+
+
         writer.close();
         br.close();
         client.close();
