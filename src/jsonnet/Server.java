@@ -51,6 +51,7 @@ public class Server {
             String temp;
 
             Writer writer = new OutputStreamWriter(socket.getOutputStream());
+            //dsdsdsdf\ndfdfsfs\nsfffdf
             while ((temp = br.readLine()) != null) {
                 handleRequest(writer,temp);
             }
