@@ -7,8 +7,8 @@ import java.net.Socket;
 /**
  * Created by dxjf on 16/10/11.
  */
-public class Client {
-    public static final String HOST = "localhost";
+class Client {
+    private static final String HOST = "localhost";
     public static final int port = 8989;
 
     public static void main(String[] args) {
