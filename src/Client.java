@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -36,15 +35,9 @@ class Client {
 
             } catch (Exception e) {
                 System.out.println("客户端错误"+e.getMessage());
+
             } finally {
-                if(socket != null) {
-                    try {
-                        socket.close();
-                        socket = null;
-                    } catch (IOException e) {
-                        System.out.println("客户端错误 finally" + e.getMessage());
-                    }
-                }
+
             }
         }
     }
