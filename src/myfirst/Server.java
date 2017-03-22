@@ -1,7 +1,9 @@
 package myfirst;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -12,7 +14,7 @@ import java.util.concurrent.Executors;
  */
 public class Server {
 
-    public static final int PORT = 123456;
+    public static final int PORT = 12346;
 
     public static void main(String[] args) throws Exception {
         System.out.println("server start ......");
@@ -28,6 +30,8 @@ public class Server {
     public static class MyHandler implements Runnable {
 
         private Socket accept;
+        private BufferedReader reader;
+        private PrintStream printStream;
 
         public MyHandler(Socket accept) {
             this.accept = accept;
@@ -35,14 +39,19 @@ public class Server {
 
         @Override
         public void run() {
+            try {
+                reader = new BufferedReader(new InputStreamReader(accept.getInputStream()));
+                printStream = new PrintStream(accept.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             while (true) {
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                     String content = reader.readLine();
                     System.out.println("客户端的字段 ：" + content);
-                    System.out.println("请输入");
-
-
+                    System.out.println("请输入 : \t");
+                    String inString = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                    printStream.println(inString);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

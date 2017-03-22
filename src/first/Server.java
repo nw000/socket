@@ -40,16 +40,16 @@ public class Server {
             BufferedReader bfr = null;
             PrintStream printStream = null;
             try {
-                while (true) {
-                    bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    String clientStr = bfr.readLine();
-                    System.out.println("客户端传过来的数据是" + clientStr);
-                    System.out.println("请输入:\t");
-                    //读取键盘的输入然后写到客户端
-                    printStream = new PrintStream(socket.getOutputStream());
-                    String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    printStream.println(str);
-                }
+
+                bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String clientStr = bfr.readLine();
+                System.out.println("客户端传过来的数据是" + clientStr);
+                System.out.println("请输入:\t");
+                //读取键盘的输入然后写到客户端
+                printStream = new PrintStream(socket.getOutputStream());
+                String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                printStream.println(str);
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
